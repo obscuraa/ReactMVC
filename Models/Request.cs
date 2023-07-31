@@ -23,8 +23,9 @@ namespace ReactMVC.Models
             Radius = radius;
         }
 
-        public Request(double x, double y, double z, double radius, double rI, int number, double nC, double maxRI, double minRI, double distributionRI, double rglobal, string? boundingArea, string? generate_Centre_Coords, double shape, double scale, int number_Of_Files, int try_count, double excess) : this(x, y, z)
+        public Request(int id, double x, double y, double z, double radius, double rI, int number, double nC, double maxRI, double minRI, double distributionRI, double rglobal, string? boundingArea, string? generate_Centre_Coords, double shape, double scale, int number_Of_Files, int try_count, double excess) : this(x, y, z)
         {
+            ID = id;
             Radius = radius;
             RI = rI;
             Number = number;
@@ -45,7 +46,7 @@ namespace ReactMVC.Models
         public Request()
         {
         }
-        public int id { get; set; }
+        public int ID { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }

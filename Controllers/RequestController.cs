@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ReactMVC.Models;
+using System.Collections;
 
 namespace ReactMVC.Controllers
 {
@@ -17,84 +19,55 @@ namespace ReactMVC.Controllers
             _loggerFactory.LogInformation($"Path: /hello   Time: {DateTime.Now.ToLongTimeString()}");
         }
 
-        // GET: RequestController
+        private static List<Request> list = new List<Request>();
+
         [HttpGet]
-        public ActionResult Index()
+        public IActionResult GetAll()
         {
-            return View();
+            return Ok(list);
         }
 
-        // GET: RequestController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        [Route("{id}")]
+        public IActionResult GetOneById(int id)
         {
-            return View();
+            var reqModel = list.Find(x => x.ID == id);
+            if (reqModel == null) return NotFound(id + " ID not found");
+            return Ok(list);
         }
 
-        // GET: RequestController/Create
         [HttpPost]
-        public ActionResult Create()
+        public IActionResult AddToList(Request request)
         {
-            return View();
+            list.Add(request);
+            return Ok(list);
         }
 
-        // POST: RequestController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: RequestController/Edit/5
         [HttpPut]
-        public ActionResult Edit(int id)
+        [Route("{id}")]
+        public IActionResult Update(int id, Request request)
         {
-            return View();
+            var reqModel = list.Find(x => x.ID == id);
+            if (reqModel == null) return NotFound(id+ " ID not found");
+
+            reqModel.ID = request.ID;
+            reqModel.X = request.X; 
+            reqModel.Y = request.Y;
+            reqModel.Z = request.Z;
+
+            return Ok(list);
         }
 
-        // POST: RequestController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RequestController/Delete/5
         [HttpDelete]
-        public ActionResult Delete(int id)
+        [Route("{id}")]
+        public IActionResult Delete(int id)
         {
-            return View();
-        }
+            var reqModel = list.Find(x => x.ID == id);
+            if (reqModel == null) return NotFound(id + " ID not found");
 
-        // POST: RequestController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            list.Remove(reqModel);
+
+            return Ok(list);
         }
     }
 }
