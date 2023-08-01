@@ -19,7 +19,32 @@ namespace ReactMVC.Controllers
             _loggerFactory.LogInformation($"Path: /hello   Time: {DateTime.Now.ToLongTimeString()}");
         }
 
-        private static List<Request> list = new List<Request>();
+        private static List<Request> list = new List<Request>() { 
+            new Request
+            {
+                ID = 1,
+                X = 1,
+                Y = 2,
+                Z = 3
+            },
+        };
+
+        [HttpPost]
+        [Route("{id}")]
+        public IActionResult CreateRequest(Request request, int id)
+        {
+            Random rand = new Random();
+
+            double Xcoord  = rand.Next(1, 100);
+            double Ycoord = rand.Next(1, 100);
+            double Zcoord = rand.Next(1, 100);
+            request.X = Xcoord;
+            request.Y = Ycoord;
+            request.Z = Zcoord;
+            request.ID = id;
+
+            return Ok(request);
+        }
 
         [HttpGet]
         public IActionResult GetAll()
