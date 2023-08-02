@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ReactMVC.Models
 {
@@ -9,44 +10,6 @@ namespace ReactMVC.Models
 
     public class Request : Prototype
     {
-        public Request(double x, double y, double z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-        public Request(double x, double y, double z, double radius)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            Radius = radius;
-        }
-
-        public Request(int id, double x, double y, double z, double radius, double rI, int number, double nC, double maxRI, double minRI, double distributionRI, double rglobal, string? boundingArea, string? generate_Centre_Coords, double shape, double scale, int number_Of_Files, int try_count, double excess) : this(x, y, z)
-        {
-            ID = id;
-            Radius = radius;
-            RI = rI;
-            Number = number;
-            NC = nC;
-            MaxRI = maxRI;
-            MinRI = minRI;
-            DistributionRI = distributionRI;
-            Rglobal = rglobal;
-            BoundingArea = boundingArea;
-            GenerateCentreCoords = generate_Centre_Coords;
-            Shape = shape;
-            Scale = scale;
-            NumberOfFiles = number_Of_Files;
-            TryCount = try_count;
-            this.Excess = excess;
-        }
-
-        public Request()
-        {
-        }
-        public int ID { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
@@ -96,29 +59,30 @@ namespace ReactMVC.Models
             return true;
         }
 
-        public static int In_sphere(double x0, double y0, double z0, double r0, double r_global)
+        public static bool InSphere(Request request)
         {
-            //  int i;
-            //  i = 0;
-
-            if (Math.Sqrt(Math.Pow(x0, 2) + Math.Pow(y0, 2) + Math.Pow(z0, 2)) > r_global)
+            if (Math.Sqrt(Math.Pow(request.X, 2) + Math.Pow(request.Y, 2) + Math.Pow(request.Z, 2)) > request.Radius)
             {
-                return 0;
+                return false;
             }
-            return 1;
+            return true;
         }
         public static double Uniform(double a, double b)
         {
             var rand = new Random();
-            return rand.NextDouble() / (rand.NextDouble() + 1.0) * (b - a) + a;
+            return rand.NextDouble() * 2 - 1 / (rand.NextDouble() * 2 - 1 + 1) * (b - a) + a;
         }
 
         public static double Concentration(double r_global, double[] vr)
         {
             double result = 0;
-            foreach (double value in vr)
+            //foreach (double value in vr)
+            //{
+            //    result += Math.Pow(value, 3);
+            //}
+            for (int i = 0; i < vr.Length; i++)
             {
-                result += Math.Pow(value, 3);
+                result  += Math.Pow(vr[i], 3);
             }
             return result / Math.Pow(r_global, 3);
         }
@@ -142,6 +106,32 @@ namespace ReactMVC.Models
             }
         }
 
+        public static void ThreadablePrintEllipsoidFields(List<Request> ellipsoids)
+        {
+            if (ellipsoids.Count == 1)
+            {
+                PrintFieldsToFile(ellipsoids[0], "ellipsoid.txt");
+            }
+            else
+            {
+                List<Thread> threads = new List<Thread>();
+
+                for (int i = 0; i < ellipsoids.Count; i++)
+                {
+                    string fileName = $"ellipsoid{ i + 1}.txt";
+                    Thread thread = new Thread(() => PrintFieldsToFile(ellipsoids[i], fileName));
+                    threads.Add(thread);
+                    thread.Start();
+                }
+
+                foreach (Thread thread in threads)
+                {
+                    thread.Join();
+                }
+
+                ArchiveFiles();
+            }
+        }
         private static void PrintFieldsToFile(Request ellipsoid, string fileName)
         {
             using (StreamWriter writer = new StreamWriter(fileName))
