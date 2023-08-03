@@ -36,8 +36,8 @@ namespace ReactMVC.Controllers
             try
             {
                 double Xcoord = RandomizeCoordinate();
-                double Ycoord = rand.NextDouble() * 2 - 1;
-                double Zcoord = rand.NextDouble() * 2 - 1;
+                double Ycoord = RandomizeCoordinate();
+                double Zcoord = RandomizeCoordinate();
                 request.X = Xcoord;
                 request.Y = Ycoord;
                 request.Z = Zcoord;

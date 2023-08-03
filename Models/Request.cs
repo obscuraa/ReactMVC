@@ -106,9 +106,9 @@ namespace ReactMVC.Models
             }
         }
 
-        public static void ThreadablePrintEllipsoidFields(List<Request> ellipsoids)
+        public static void ThreadablePrintEllipsoidFields(List<Request> ellipsoids, int NumberOfFiles)
         {
-            if (ellipsoids.Count == 1)
+            if (NumberOfFiles == 1)
             {
                 PrintFieldsToFile(ellipsoids[0], "ellipsoid.txt");
             }
@@ -116,7 +116,7 @@ namespace ReactMVC.Models
             {
                 List<Thread> threads = new List<Thread>();
 
-                for (int i = 0; i < ellipsoids.Count; i++)
+                for (int i = 0; i < NumberOfFiles; i++)
                 {
                     string fileName = $"ellipsoid{ i + 1}.txt";
                     Thread thread = new Thread(() => PrintFieldsToFile(ellipsoids[i], fileName));
