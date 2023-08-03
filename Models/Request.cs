@@ -70,7 +70,7 @@ namespace ReactMVC.Models
         public static double Uniform(double a, double b)
         {
             var rand = new Random();
-            return rand.NextDouble() * 2 - 1 / (rand.NextDouble() * 2 - 1 + 1) * (b - a) + a;
+            return rand.NextDouble() / (rand.NextDouble() + 1.0) * (b - a) + a;
         }
 
         public static double Concentration(double r_global, double[] vr)

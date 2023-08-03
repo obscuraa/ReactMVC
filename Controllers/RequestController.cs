@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ReactMVC.Models;
 using System.Collections;
 
@@ -34,7 +35,7 @@ namespace ReactMVC.Controllers
         {
             try
             {
-                double Xcoord = rand.NextDouble() * 2 - 1;
+                double Xcoord = RandomizeCoordinate();
                 double Ycoord = rand.NextDouble() * 2 - 1;
                 double Zcoord = rand.NextDouble() * 2 - 1;
                 request.X = Xcoord;
@@ -52,17 +53,40 @@ namespace ReactMVC.Controllers
             }
         }
 
+        private double RandomizeCoordinate()
+        {
+            return rand.NextDouble() * 2 - 1;
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(list);
+            try
+            {
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in GetAll method");
+                ex.ToString();
+                throw;
+            }
         }
 
         [HttpPost]
         public IActionResult AddToList(Request request)
         {
-            list.Add(request);
-            return Ok(list);
+            try
+            {
+                list.Add(request);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in AddToList method");
+                ex.ToString();
+                throw;
+            }
         }
     }
 }
