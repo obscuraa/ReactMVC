@@ -6,51 +6,51 @@ export class CreateEllipsoid extends Component {
         super(props)
 
         this.state = {
-            X: "",
-            Y: "",
-            Z: ""
+            Number: "",
+            Rglobal: "",
+            FilesNumber: ""
         }
 
-        this.onXChange = this.onXChange.bind(this);
-        this.onYChange = this.onYChange.bind(this);
-        this.onZChange = this.onZChange.bind(this);
+        this.onNumberChange = this.onNumberChange.bind(this);
+        this.onRglobalChange = this.onRglobalChange.bind(this);
+        this.onFilesNumberChange = this.onFilesNumberChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onXChange(e) {
-        this.setState({ name: e.target.value });
+        this.setState({ Number: e.target.value });
     }
 
     onYChange(e) {
-        this.setState({ email: e.target.value });
+        this.setState({ Rglobal: e.target.value });
     }
 
     onZChange(e) {
-        this.setState({ text: e.target.value });
+        this.setState({ FilesNumber: e.target.value });
     }
 
     onSubmit(e) {
         e.preventDefault();
-        var formX = this.state.X;
-        var formY = this.state.Y;
-        var formZ = this.state.Z;
-        if (!formX || !formY || !formZ) {
+        var formNumber = this.state.Number;
+        var formRglobal = this.state.Rglobal;
+        var formFilesNumber = this.state.FilesNumber;
+        if (!formNumber || !formRglobal || !formFilesNumber) {
             return;
         }
 
         var data = new FormData(e.target);
 
-        console.log(formX);
-        console.log(formY);
-        console.log(formZ);
+        console.log(formNumber);
+        console.log(formRglobal);
+        console.log(formFilesNumber);
 
-        data.append("X", formX);
-        data.append("Y", formY);
-        data.append("Z", formX);
+        data.append("Number", formNumber);
+        data.append("Rglobal", formRglobal);
+        data.append("FilesNumber", formFilesNumber);
 
         axios({
             method: 'post',
-            url: '/api/Requst/CreateRequest/',
+            url: '/api/Request/CreateRequest/',
             data: data,
         })
             .then((res) => {
@@ -58,15 +58,13 @@ export class CreateEllipsoid extends Component {
             })
             .catch((err) => { throw err });
 
-        this.setState({ X: "", Y: "", Z: "" });
+        this.setState({ Number: "", Rglobal: "", FilesNumber: "" });
 
-        axios.get('/api/request')
+        axios.get('/api/Request/GetAll')
             .then(response => {
-
                 console.log(response.data);
             })
             .catch(error => {
-
                 console.error(error);
             });
 
@@ -81,16 +79,16 @@ export class CreateEllipsoid extends Component {
                     <div class="col-6">
                         <form id="my-form" onSubmit={this.onSubmit}>
                             <div class="mb-3">
-                                <label class="form-label">Enter X coordinate</label>
-                                <input type="number" class="form-control" onChange={this.onXChange} />
+                                <label class="form-label">Enter Number of spheres</label>
+                                <input type="number" class="form-control" onChange={this.onNumberChange} />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Enter Y coordinate</label>
-                                <input type="number" class="form-control" onChange={this.onYChange} />
+                                <label class="form-label">Enter Rglobal</label>
+                                <input type="number" class="form-control" onChange={this.onRglobalChange} />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Enter Z coordinate</label>
-                                <input type="number" class="form-control" onChange={this.onZChange} />
+                                <label class="form-label">Enter Number of files</label>
+                                <input type="number" class="form-control" onChange={this.onFilesNumberChange} />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Choose bounding area</label>

@@ -1,6 +1,4 @@
-﻿using ReactMVC.Models;
-
-namespace ReactMVC
+﻿namespace ReactMVC
 {
     public class Context
     {

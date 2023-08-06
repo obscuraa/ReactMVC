@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace ReactMVC.Models
+﻿namespace ReactMVC.Models
 {
     public class Sphere
     {
@@ -9,10 +7,18 @@ namespace ReactMVC.Models
         public double Z { get; set; }
         public double Radius { get; set; }
         //размер ограничивающей области rglobal(double)
-        public double Rglobal { get; set; }
+        //public double Rglobal { get; set; }
         //число файлов(int) (т.е. сколько раз мы хотим осуществить генерацию)
-        public int NumberOfFiles { get; set; }
-        public int NumOfSpheres { get; set; }
+        //public int NumberOfFiles { get; set; }
+        //public int NumOfSpheres { get; set; }
+
+        public Sphere(double x, double y, double z, double radius)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Z = z;
+            this.Radius = radius;
+        }
 
         double[] arr = new double[3];
 

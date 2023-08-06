@@ -6,8 +6,8 @@ namespace ReactMVC
     {
         public double GetRadius()
         {
-            double mean = 100;
-            double stdDev = 10;
+            double mean = 10;
+            double stdDev = 3.5;
 
             MathNet.Numerics.Distributions.Normal normalDist = new Normal(mean, stdDev);
             double randomGaussianValue = normalDist.Sample();
