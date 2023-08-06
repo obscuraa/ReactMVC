@@ -18,7 +18,7 @@
             double[] radiusArr = new double[numPoints];
             for(int i = 0; i < numPoints; i++)
             {
-                radiusArr[i] = rand.NextDouble();
+                radiusArr[i] = normalDistribution.GetRadius();
             }
 
             radiusArr.OrderBy(x => x);
@@ -34,7 +34,7 @@
 
                 if (Logic.InSphere(points.ElementAt(i)) == true)
                 {
-                    if (Logic.Intersect((points != null) && points.ElementAt(i), numPoints))
+                    if (Logic.Intersect(points, numPoints))
                     {
                         list.Add(points.ElementAt(i));
                     }
@@ -75,7 +75,7 @@
                 i = 0;
                 while (i < n)
                 {
-                    if (Math.Sqrt(Math.Pow(list[i].X, 2) + Math.Pow(list[i].Y, 2) + Math.Pow(list[i].Z, 2)) < list[i].Radius + list[i].Rglobal)
+                    if (Math.Sqrt(Math.Pow(list[i].X, 2) + Math.Pow(list[i].Y, 2) + Math.Pow(list[i].Z, 2)) < list[i].Radius + list[0].Radius)
                     {
                         return false;
                     }

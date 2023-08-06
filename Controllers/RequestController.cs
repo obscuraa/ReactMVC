@@ -27,11 +27,14 @@ namespace ReactMVC.Controllers
         //};
 
         [HttpPost]
-        public IActionResult CreateRequest(Request request)
+        public IActionResult CreateRequest(Request request, Response response)
         {
             try
             {
-                return Ok(request);
+                response.Message = "Sending message";
+                response.Status = true;
+                response.Data = "message";
+                return Ok(response);
             }
             catch (Exception ex){
                 _logger.LogError(ex, "An error occurred in CreateRequest method");
