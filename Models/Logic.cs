@@ -75,6 +75,7 @@
                 i = 0;
                 while (i < n)
                 {
+                    //                                                                                        вот тут точно не правильно
                     if (Math.Sqrt(Math.Pow(list[i].X, 2) + Math.Pow(list[i].Y, 2) + Math.Pow(list[i].Z, 2)) < list[i].Radius + list[0].Radius)
                     {
                         return false;
