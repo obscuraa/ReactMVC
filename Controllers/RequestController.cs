@@ -26,7 +26,11 @@ namespace ReactMVC.Controllers
         //    }
         //};
 
-        [HttpPost("api/[controller]/create")]
+        //работает WTF?
+        //[HttpPost("api/[controller]/create")]
+        //не работает
+        //[HttpPost("create")]
+        [HttpPost("create")]
         public IActionResult CreateRequest(Response response)
         {
             try

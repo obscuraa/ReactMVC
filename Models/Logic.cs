@@ -10,10 +10,12 @@
 
         List<Sphere> points = new List<Sphere>();
         List<Sphere> list = new List<Sphere>();
+        //List<Thread> threads = new List<Thread>();
 
         public List<Sphere> GenerateRandomPoints(Sphere sphere, int numPoints)
         {
             Random rand = new Random();
+            List<Thread> threads = new List<Thread>();
 
             double[] radiusArr = new double[numPoints];
             for(int i = 0; i < numPoints; i++)
@@ -23,23 +25,40 @@
 
             radiusArr.OrderBy(x => x);
 
-            for (int i = 0; i < numPoints; i++)
+            //генерация нового инстанса
+            double sp_x = RandCoordinateX(sphere, rand);
+            double sp_y = RandCoordinateY(sphere, rand);
+            double sp_z = RandCoordinateZ(sphere, rand);
+            double sp_Radius = radiusArr[0];
+
+            var sp = new Sphere(sp_x, sp_y, sp_z, sp_Radius);
+
+            Thread thread = new Thread(() =>
             {
-                double x = RandCoordinateX(sphere, rand);
-                double y = RandCoordinateY(sphere, rand);
-                double z = RandCoordinateZ(sphere, rand);
-                double Radius = radiusArr[i]; 
-
-                points.Add(new Sphere(x, y, z, Radius));
-
-                if (Logic.InSphere(points.ElementAt(i)) == true)
+                for (int i = 0; i < numPoints; i++)
                 {
-                    if (Logic.Intersect(points, numPoints))
+                    double x = RandCoordinateX(sphere, rand);
+                    double y = RandCoordinateY(sphere, rand);
+                    double z = RandCoordinateZ(sphere, rand);
+                    double Radius = radiusArr[i];
+
+                    points.Add(new Sphere(x, y, z, Radius));
+
+                    if (Logic.Intersect(points[i], sp, numPoints))
                     {
                         list.Add(points.ElementAt(i));
                     }
                 }
+            });
+
+            threads.Add(thread);
+            thread.Start();
+
+            foreach (Thread t in threads)
+            {
+                t.Join();
             }
+
             return list;
         }
 
@@ -67,7 +86,7 @@
             return true;
         }
 
-        public static bool Intersect(List<Sphere> list, int n)
+        public static bool Intersect(Sphere current, Sphere previous, int n)
         {
             int i;
             if (n > 0)
@@ -75,8 +94,7 @@
                 i = 0;
                 while (i < n)
                 {
-                    //                                                                                        вот тут точно не правильно
-                    if (Math.Sqrt(Math.Pow(list[i].X, 2) + Math.Pow(list[i].Y, 2) + Math.Pow(list[i].Z, 2)) < list[i].Radius + list[0].Radius)
+                    if (Math.Sqrt(Math.Pow(current.X, 2) + Math.Pow(current.Y, 2) + Math.Pow(current.Z, 2)) < current.Radius + previous.Radius)
                     {
                         return false;
                     }
