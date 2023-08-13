@@ -33,26 +33,20 @@
 
             var sp = new Sphere(sp_x, sp_y, sp_z, sp_Radius);
 
-            Thread thread = new Thread(() =>
+            for (int i = 0; i < numPoints; i++)
             {
-                for (int i = 0; i < numPoints; i++)
+                double x = RandCoordinateX(sphere, rand);
+                double y = RandCoordinateY(sphere, rand);
+                double z = RandCoordinateZ(sphere, rand);
+                double Radius = radiusArr[i];
+
+                points.Add(new Sphere(x, y, z, Radius));
+
+                if (Logic.Intersect(points[i], sp, numPoints))
                 {
-                    double x = RandCoordinateX(sphere, rand);
-                    double y = RandCoordinateY(sphere, rand);
-                    double z = RandCoordinateZ(sphere, rand);
-                    double Radius = radiusArr[i];
-
-                    points.Add(new Sphere(x, y, z, Radius));
-
-                    if (Logic.Intersect(points[i], sp, numPoints))
-                    {
-                        list.Add(points.ElementAt(i));
-                    }
+                    list.Add(points.ElementAt(i));
                 }
-            });
-
-            threads.Add(thread);
-            thread.Start();
+            }
 
             foreach (Thread t in threads)
             {
