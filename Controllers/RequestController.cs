@@ -31,13 +31,15 @@ namespace ReactMVC.Controllers
         //не работает
         //[HttpPost("create")]
         [HttpPost("create")]
-        public IActionResult CreateRequest(Response response)
+        public IActionResult CreateRequest(Request request)
         {
             try
             {
-                response.Message = "Sending message";
+                Response response = new Response();
                 response.Status = true;
+                response.Message = "Sending message";
                 response.Data = "message";
+
                 return Ok(response);
             }
             catch (Exception ex){

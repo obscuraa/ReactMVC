@@ -26,11 +26,15 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.MapControllers();
 
 //app.MapControllerRoute(
 //    name: "default",
-//    pattern: "{controller}/{action=Index}/{id?}");
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "api/{controller}/{action}/{id}");
 
 app.MapFallbackToFile("index.html");
 
