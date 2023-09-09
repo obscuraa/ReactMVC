@@ -8,15 +8,13 @@ namespace ReactMVC.Controllers
     public class RequestController : Controller
     {
         private readonly ILogger<RequestController> _logger;
-        private readonly Sphere _sphere;
         private readonly Logic _logic;
         private readonly Request _request;
         private readonly ILogger _loggerFactory;
 
-        public RequestController(ILogger<RequestController> logger, ILoggerFactory loggerFactory, Sphere sphere, Logic logic, Request request)
+        public RequestController(ILogger<RequestController> logger, ILoggerFactory loggerFactory, Logic logic, Request request)
         {
             _logger = logger;
-            _sphere = sphere;
             _logic = logic;
             _request = request;
             _loggerFactory = loggerFactory.CreateLogger("MapLogger");
@@ -42,17 +40,14 @@ namespace ReactMVC.Controllers
                 response.Message = "Sending message";
                 response.Data = "message";
 
-             
-
                 var Rglobal = request.Rglobal;
                 var FilesNumber = request.FilesNumber;
 
-
-               // var area = new Wrapper();
+                var sphere = new Sphere(1, 2, 3, 4);
             
-
-                var ListOfPoints = _logic.GenerateRandomPoints(_sphere, 10);
-                _logic.ThreadablePrintEllipsoidFields(ListOfPoints, 5);
+                var ListOfPoints = _logic.GenerateRandomPoints(sphere, 3);
+                // параметр NumOfFiles должен быть меньше чем кол-во элементов в списке, иначе System.ArgumentOutOfRangeException
+                _logic.ThreadablePrintEllipsoidFields(ListOfPoints, ListOfPoints.Count - 1);
                 
                 return Ok(response);
             }
@@ -100,24 +95,3 @@ namespace ReactMVC.Controllers
         //}
     }
 }
-
-
-
-
-
-
-//Homework
-/*
- * cub
- * sp
- * cil
- 
-aRea(size R)
-
-
-metanit патерн стратегия
-
-
-
-
-
