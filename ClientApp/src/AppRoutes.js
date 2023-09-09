@@ -2,6 +2,7 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { CreateEllipsoid } from "./components/CreateEllipsoid";
+//import { Request } from "./components/Request";
 
 const AppRoutes = [
     {
@@ -23,6 +24,10 @@ const AppRoutes = [
     {
         path: '/ellipsoid',
     }
+    //{
+    //    path: '/apptest',
+    //    element: <Request />
+    //}
 ];
 
 export default AppRoutes;

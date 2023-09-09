@@ -1,12 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -26,15 +24,15 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.MapControllers();
+//app.MapControllers();
 
 //app.MapControllerRoute(
 //    name: "default",
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "api/{controller}/{action}/{id}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "api/{controller}/{action}/{id}");
 
 app.MapFallbackToFile("index.html");
 

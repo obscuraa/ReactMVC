@@ -1,4 +1,6 @@
-﻿class Request extends React.Component {
+﻿import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+export class Request extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +25,7 @@
     }
 }
 
-class RequestForm extends React.Component {
+export class RequestForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -123,7 +125,7 @@ class RequestForm extends React.Component {
     }
 }
 
-class PhonesList extends React.Component {
+export class RequestList extends React.Component {
     constructor(props) {
         super(props);
         this.state = { requests: [] };
@@ -183,6 +185,6 @@ class PhonesList extends React.Component {
 }
 
 ReactDOM.render(
-    <PhonesList apiUrl="/api/request" />,
+    <RequestList apiUrl="/api/request" />,
     document.getElementById("root")
 );
