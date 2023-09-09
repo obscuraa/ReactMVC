@@ -9,7 +9,7 @@ const context =  [
     "/swagger",
     "/api/request",
     "/request",
-    "/**"
+    "/api"
 ];
 
 module.exports = function(app) {

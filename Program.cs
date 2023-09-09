@@ -1,3 +1,6 @@
+using ReactMVC;
+using ReactMVC.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,11 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<Logic>();
+//builder.Services.AddScoped<IShape, Sphere>();
+builder.Services.AddScoped<Cube>();
+builder.Services.AddScoped<Request>();
+builder.Services.AddScoped<NormalDistribution>();
 
 var app = builder.Build();
 
@@ -24,7 +32,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-//app.MapControllers();
+app.MapControllers();
 
 //app.MapControllerRoute(
 //    name: "default",

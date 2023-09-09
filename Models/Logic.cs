@@ -56,8 +56,8 @@ namespace ReactMVC.Models
             {
                 t.Join();
             }
-
-            return list;
+            // вот тут, скорее, список points нужно возвращать, а не list
+            return points;
         }
 
         private static double RandCoordinateZ(Sphere sphere, Random rand)
@@ -119,7 +119,7 @@ namespace ReactMVC.Models
                 ArchiveFiles();
             }
         }
-
+        // NumOfFiles должен быть меньше чем кол-во элементов в списке, иначе System.ArgumentOutOfRangeException
         public void ThreadablePrintEllipsoidFields(List<Sphere> spheres, int NumberOfFiles)
         {
             if (NumberOfFiles == 1)
@@ -129,13 +129,20 @@ namespace ReactMVC.Models
             else
             {
                 List<Thread> threads = new List<Thread>();
-
-                for (int i = 0; i < NumberOfFiles; i++)
+                try
                 {
-                    string fileName = $"{Guid.NewGuid()}.txt";
-                    Thread thread = new Thread(() => PrintFieldsToFile(spheres[i], fileName));
-                    threads.Add(thread);
-                    thread.Start();
+                    for (int i = 0; i < NumberOfFiles; i++)
+                    {
+                        string fileName = $"{Guid.NewGuid()}.txt";
+                        Thread thread = new Thread(() => PrintFieldsToFile(spheres[i], fileName));
+                        threads.Add(thread);
+                        thread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    throw;
                 }
 
                 foreach (Thread thread in threads)

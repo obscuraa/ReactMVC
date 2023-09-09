@@ -1,6 +1,6 @@
 ﻿namespace ReactMVC.Models
 {
-    public class Sphere
+    public class Sphere : IShape
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -20,6 +20,11 @@
             this.Radius = radius;
         }
 
+        public double Area()
+        {
+            return 4 * Math.PI * Math.Pow(Radius, 2);
+        }
+
         //double[] arr = new double[3];
 
         //public double[] GenerateArray(double[] arr) 
@@ -35,7 +40,7 @@
 
         //List<Sphere> points = new List<Sphere>();
         //List<Sphere> list = new List<Sphere>();
-        
+
         //public Sphere(double x, double y, double z)
         //{
         //    X = x;
