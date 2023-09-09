@@ -18,7 +18,6 @@ namespace ReactMVC.Models
         {
             Random rand = new Random();
             List<Thread> threads = new List<Thread>();
-            List<Sphere> list = new List<Sphere>();
 
             double[] radiusArr = new double[numPoints];
 
@@ -57,7 +56,7 @@ namespace ReactMVC.Models
             {
                 t.Join();
             }
-
+            // вот тут, скорее, список points нужно возвращать, а не list
             return points;
         }
 
