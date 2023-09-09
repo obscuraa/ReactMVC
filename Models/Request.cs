@@ -4,10 +4,6 @@ namespace ReactMVC.Models
 {
     public class Request
     {
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Z { get; set; }
-        public double Radius { get; set; }
         //public double RI { get; set; }
         //spheres number(int) - число шаров планируемое
         public int Number { get; set; }
@@ -81,8 +77,8 @@ namespace ReactMVC.Models
         //    return result / Math.Pow(r_global, 3);
         //}
         // конец C-шного кода
-
-        public static void PrintEllipsoidFields(List<Request> ellipsoids)
+        
+        public void PrintEllipsoidFields(List<Request> ellipsoids)
         {
             if (ellipsoids.Count == 1)
             {
@@ -100,7 +96,7 @@ namespace ReactMVC.Models
             }
         }
 
-        public static void ThreadablePrintEllipsoidFields(List<Request> ellipsoids, int NumberOfFiles)
+        public void ThreadablePrintEllipsoidFields(List<Request> ellipsoids, int NumberOfFiles)
         {
             if (NumberOfFiles == 1)
             {
@@ -130,10 +126,9 @@ namespace ReactMVC.Models
         {
             using (StreamWriter writer = new StreamWriter(fileName))
             {
-                writer.WriteLine($"X: {ellipsoid.X}");
-                writer.WriteLine($"Y: {ellipsoid.Y}");
-                writer.WriteLine($"Z: {ellipsoid.Z}");
-                writer.WriteLine($"Radius: {ellipsoid.Radius}");
+                writer.WriteLine($"Number: {ellipsoid.Number}");
+                writer.WriteLine($"Rglobal: {ellipsoid.Rglobal}");
+                writer.WriteLine($"FilesNumber: {ellipsoid.FilesNumber}");
             }
         }
         private static void ArchiveFiles()
@@ -148,6 +143,6 @@ namespace ReactMVC.Models
                     archive.CreateEntryFromFile(fileName, Path.GetFileName(fileName));
                 }
             }
-        }
+        } 
     }
 }

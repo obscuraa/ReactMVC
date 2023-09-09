@@ -130,8 +130,8 @@ export class RequestList extends React.Component {
         super(props);
         this.state = { requests: [] };
 
-        this.onAddPhone = this.onAddPhone.bind(this);
-        this.onRemovePhone = this.onRemovePhone.bind(this);
+        //this.onAddPhone = this.onAddPhone.bind(this);
+        //this.onRemovePhone = this.onRemovePhone.bind(this);
     }
     // загрузка данных
     loadData() {

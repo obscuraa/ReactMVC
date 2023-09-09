@@ -11,10 +11,10 @@ export class CreateEllipsoid extends Component {
             FilesNumber: ""
         }
 
-        this.onNumberChange = this.onNumberChange.bind(this);
-        this.onRglobalChange = this.onRglobalChange.bind(this);
-        this.onFilesNumberChange = this.onFilesNumberChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+       // this.onNumberChange = this.onNumberChange.bind(this);
+       // this.onRglobalChange = this.onRglobalChange.bind(this);
+       // this.onFilesNumberChange = this.onFilesNumberChange.bind(this);
+       // this.onSubmit = this.onSubmit.bind(this);
     }
 
     onXChange(e) {
@@ -80,15 +80,15 @@ export class CreateEllipsoid extends Component {
                         <form id="my-form" onSubmit={this.onSubmit}>
                             <div class="mb-3">
                                 <label class="form-label">Enter Number of spheres</label>
-                                <input type="number" class="form-control" onChange={this.onNumberChange} />
+                                <input type="number" class="form-control" onChange={() => this.onNumberChange()} />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Enter Rglobal</label>
-                                <input type="number" class="form-control" onChange={this.onRglobalChange} />
+                                <input type="number" class="form-control" onChange={() => this.onRglobalChange()} />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Enter Number of files</label>
-                                <input type="number" class="form-control" onChange={this.onFilesNumberChange} />
+                                <input type="number" class="form-control" onChange={() => this.onFilesNumberChange()} />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Choose bounding area</label>

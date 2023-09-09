@@ -24,6 +24,7 @@ const AppRoutes = [
     {
         path: '/ellipsoid',
     }
+    //,
     //{
     //    path: '/apptest',
     //    element: <Request />

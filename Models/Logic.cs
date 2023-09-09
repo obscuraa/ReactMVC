@@ -1,4 +1,6 @@
-﻿namespace ReactMVC.Models
+﻿using System.IO.Compression;
+
+namespace ReactMVC.Models
 {
     public class Logic
     {
@@ -18,6 +20,7 @@
             List<Thread> threads = new List<Thread>();
 
             double[] radiusArr = new double[numPoints];
+
             for(int i = 0; i < numPoints; i++)
             {
                 radiusArr[i] = normalDistribution.GetRadius();
@@ -29,6 +32,7 @@
             double sp_x = RandCoordinateX(sphere, rand);
             double sp_y = RandCoordinateY(sphere, rand);
             double sp_z = RandCoordinateZ(sphere, rand);
+            
             double sp_Radius = radiusArr[0];
 
             var sp = new Sphere(sp_x, sp_y, sp_z, sp_Radius);
@@ -96,6 +100,74 @@
                 }
             }
             return true;
+        }
+
+        public void PrintEllipsoidFields(List<Sphere> spheres)
+        {
+            if (spheres.Count == 1)
+            {
+                PrintFieldsToFile(spheres[0], "spheres.txt");
+            }
+            else
+            {
+                Parallel.For(0, spheres.Count, i =>
+                //for (int i = 0; i < spheres.Count; i++)
+                {
+                    string fileName = $"sphere{i + 1}.txt";
+                    PrintFieldsToFile(spheres[i], fileName);
+                });
+                ArchiveFiles();
+            }
+        }
+
+        public void ThreadablePrintEllipsoidFields(List<Sphere> spheres, int NumberOfFiles)
+        {
+            if (NumberOfFiles == 1)
+            {
+                PrintFieldsToFile(spheres[0], "sphere.txt");
+            }
+            else
+            {
+                List<Thread> threads = new List<Thread>();
+
+                for (int i = 0; i < NumberOfFiles; i++)
+                {
+                    string fileName = $"{Guid.NewGuid()}.txt";
+                    Thread thread = new Thread(() => PrintFieldsToFile(spheres[i], fileName));
+                    threads.Add(thread);
+                    thread.Start();
+                }
+
+                foreach (Thread thread in threads)
+                {
+                    thread.Join();
+                }
+
+                ArchiveFiles();
+            }
+        }
+        private static void PrintFieldsToFile(Sphere sphere, string fileName)
+        {
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                writer.WriteLine($"X: {sphere.X}");
+                writer.WriteLine($"Y: {sphere.Y}");
+                writer.WriteLine($"Z: {sphere.Z}");
+                writer.WriteLine($"Radius: {sphere.Radius}");
+            }
+        }
+        private static void ArchiveFiles()
+        {
+            string zipFileName = "sphere_archive.zip";
+            string[] fileNames = Directory.GetFiles(Directory.GetCurrentDirectory(), "sphere*.txt");
+
+            using (ZipArchive archive = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
+            {
+                foreach (string fileName in fileNames)
+                {
+                    archive.CreateEntryFromFile(fileName, Path.GetFileName(fileName));
+                }
+            }
         }
     }
 }
