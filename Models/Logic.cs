@@ -29,9 +29,9 @@ namespace ReactMVC.Models
             radiusArr.OrderBy(x => x);
 
             //генерация нового инстанса
-            double sp_x = RandCoordinateX(sphere, rand);
-            double sp_y = RandCoordinateY(sphere, rand);
-            double sp_z = RandCoordinateZ(sphere, rand);
+            double sp_x = RandCoordinate(sphere, rand, "X");
+            double sp_y = RandCoordinate(sphere, rand, "Y");
+            double sp_z = RandCoordinate(sphere, rand, "Z");
             
             double sp_Radius = radiusArr[0];
 
@@ -39,9 +39,9 @@ namespace ReactMVC.Models
 
             for (int i = 0; i < numPoints; i++)
             {
-                double x = RandCoordinateX(sphere, rand);
-                double y = RandCoordinateY(sphere, rand);
-                double z = RandCoordinateZ(sphere, rand);
+                double x = RandCoordinate(sphere, rand, "X");
+                double y = RandCoordinate(sphere, rand, "Y");
+                double z = RandCoordinate(sphere, rand, "Z");
                 double Radius = radiusArr[i];
 
                 points.Add(new Sphere(x, y, z, Radius));
@@ -59,7 +59,7 @@ namespace ReactMVC.Models
             // вот тут, скорее, список points нужно возвращать, а не list
             return points;
         }
-
+        /*
         private static double RandCoordinateZ(Sphere sphere, Random rand)
         {
             return rand.NextDouble() * 2 * sphere.Z - sphere.Z;
@@ -73,6 +73,21 @@ namespace ReactMVC.Models
         private static double RandCoordinateX(Sphere sphere, Random rand)
         {
             return rand.NextDouble() * 2 * sphere.X - sphere.X;
+        }
+        */
+        private static double RandCoordinate(Sphere sphere, Random rand, string coordinate)
+        {
+            switch (coordinate)
+            {
+                case "X":
+                    return rand.NextDouble() * 2 * sphere.X - sphere.X;
+                case "Y":
+                    return rand.NextDouble() * 2 * sphere.Y - sphere.Y;
+                case "Z":
+                    return rand.NextDouble() * 2 * sphere.Z - sphere.Z;
+                default:
+                    throw new ArgumentException("Invalid coordinate specified.");
+            }
         }
 
         public static bool InSphere(Sphere sphere)
