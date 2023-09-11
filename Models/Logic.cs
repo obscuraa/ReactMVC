@@ -16,7 +16,6 @@ namespace ReactMVC.Models
 
         public List<Sphere> GenerateRandomPoints(Sphere sphere, int numPoints)
         {
-            Random rand = new Random();
             List<Thread> threads = new List<Thread>();
 
             double[] radiusArr = new double[numPoints];
@@ -29,19 +28,19 @@ namespace ReactMVC.Models
             radiusArr.OrderBy(x => x);
 
             //генерация нового инстанса
-            double sp_x = RandCoordinate(sphere, rand, "X");
-            double sp_y = RandCoordinate(sphere, rand, "Y");
-            double sp_z = RandCoordinate(sphere, rand, "Z");
-            
+            double sp_x = GeneralFunctions.RandCoordinate(2);
+            double sp_y = GeneralFunctions.RandCoordinate(2);
+            double sp_z = GeneralFunctions.RandCoordinate(2);
+
             double sp_Radius = radiusArr[0];
 
             var sp = new Sphere(sp_x, sp_y, sp_z, sp_Radius);
 
             for (int i = 0; i < numPoints; i++)
             {
-                double x = RandCoordinate(sphere, rand, "X");
-                double y = RandCoordinate(sphere, rand, "Y");
-                double z = RandCoordinate(sphere, rand, "Z");
+                double x = GeneralFunctions.RandCoordinate(2);
+                double y = GeneralFunctions.RandCoordinate(2);
+                double z = GeneralFunctions.RandCoordinate(2);
                 double Radius = radiusArr[i];
 
                 points.Add(new Sphere(x, y, z, Radius));
@@ -75,21 +74,6 @@ namespace ReactMVC.Models
             return rand.NextDouble() * 2 * sphere.X - sphere.X;
         }
         */
-        private static double RandCoordinate(Sphere sphere, Random rand, string coordinate)
-        {
-            switch (coordinate)
-            {
-                case "X":
-                    return rand.NextDouble() * 2 * sphere.X - sphere.X;
-                case "Y":
-                    return rand.NextDouble() * 2 * sphere.Y - sphere.Y;
-                case "Z":
-                    return rand.NextDouble() * 2 * sphere.Z - sphere.Z;
-                default:
-                    throw new ArgumentException("Invalid coordinate specified.");
-            }
-        }
-
         public static bool InSphere(Sphere sphere)
         {
             if (Math.Sqrt(Math.Pow(sphere.X, 2) + Math.Pow(sphere.Y, 2) + Math.Pow(sphere.Z, 2)) > sphere.Radius)
