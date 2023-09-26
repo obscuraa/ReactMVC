@@ -50,7 +50,7 @@ export class CreateEllipsoid extends Component {
 
         axios({
             method: 'post',
-            url: '/api/Request/CreateRequest/',
+            url: '/api/Request/create/',
             data: data,
         })
             .then((res) => {
@@ -89,6 +89,10 @@ export class CreateEllipsoid extends Component {
                             <div class="mb-3">
                                 <label class="form-label">Enter Number of files</label>
                                 <input type="number" class="form-control" onChange={() => this.onFilesNumberChange()} />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Enter NC (Concentration of spheres)</label>
+                                <input type="number" class="form-control" />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Choose bounding area</label>

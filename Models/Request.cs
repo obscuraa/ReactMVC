@@ -8,7 +8,7 @@ namespace ReactMVC.Models
         //spheres number(int) - число шаров планируемое
         public int Number { get; set; }
         //nc(double) - концентрация шаров которую мы хотим получить определяется как sum(r_i^3)  / r^3,
-        //public double NC { get; set; }
+        public double NC { get; set; }
         //размер самого большого(r_i) (double)
         //public double MaxRI { get; set; }
         //размер самого малого(r_i) (double)
@@ -143,6 +143,6 @@ namespace ReactMVC.Models
                     archive.CreateEntryFromFile(fileName, Path.GetFileName(fileName));
                 }
             }
-        } 
+        }
     }
 }

@@ -123,7 +123,7 @@ namespace ReactMVC.Models
         {
             if (NumberOfFiles == 1)
             {
-                PrintFieldsToFile(spheres[0], "sphere.txt");
+                PrintFieldsToFile(spheres[0], $"Files/{Guid.NewGuid()}.txt");
             }
             else
             {
@@ -132,7 +132,7 @@ namespace ReactMVC.Models
                 {
                     for (int i = 0; i < NumberOfFiles; i++)
                     {
-                        string fileName = $"{Guid.NewGuid()}.txt";
+                        string fileName = $"Files/{Guid.NewGuid()}.txt";
                         Thread thread = new Thread(() => PrintFieldsToFile(spheres[i], fileName));
                         threads.Add(thread);
                         thread.Start();
@@ -156,16 +156,14 @@ namespace ReactMVC.Models
         {
             using (StreamWriter writer = new StreamWriter(fileName))
             {
-                writer.WriteLine($"X: {sphere.X}");
-                writer.WriteLine($"Y: {sphere.Y}");
-                writer.WriteLine($"Z: {sphere.Z}");
-                writer.WriteLine($"Radius: {sphere.Radius}");
+                writer.Write($"X: {sphere.X} Y: {sphere.Y} Z: {sphere.Z} Radius: {sphere.Radius}");
             }
         }
         private static void ArchiveFiles()
         {
-            string zipFileName = "sphere_archive.zip";
-            string[] fileNames = Directory.GetFiles(Directory.GetCurrentDirectory(), "sphere*.txt");
+            string path = "/Files";
+            string zipFileName = $"Files/{Guid.NewGuid()}.zip";
+            string[] fileNames = Directory.GetFiles(Directory.GetCurrentDirectory() + path, "*.txt");
 
             using (ZipArchive archive = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
             {
@@ -173,6 +171,21 @@ namespace ReactMVC.Models
                 {
                     archive.CreateEntryFromFile(fileName, Path.GetFileName(fileName));
                 }
+            }
+        }
+        private static void CheckNC(double NC)
+        {
+            try
+            {
+                if (NC > 0.4)
+                {
+                    throw new Exception("NC should be less than 0.4");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                throw;
             }
         }
     }

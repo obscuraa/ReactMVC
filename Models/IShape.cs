@@ -8,5 +8,6 @@
         double Radius { get; set; }
 
         double Area();
+        double Volume();
     }
 }

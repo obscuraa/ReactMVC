@@ -25,6 +25,14 @@
             return 4 * Math.PI * Math.Pow(Radius, 2);
         }
 
+        public double Volume()
+        {
+            return (4.0 / 3.0) * Math.PI * Math.Pow(Radius, 3);
+        }
+
+        public static double Concentration(double v_global, List<Sphere> spheres) =>  spheres.Sum(item => item.Volume() / v_global);
+        
+
         //double[] arr = new double[3];
 
         //public double[] GenerateArray(double[] arr) 

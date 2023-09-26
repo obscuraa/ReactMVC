@@ -12,5 +12,10 @@
         {
             return 6 * Math.Pow(SideLength, 2); ;
         }
+
+        public double Volume()
+        {
+            return Math.Pow(SideLength, 3);
+        }
     }
 }

@@ -35,11 +35,6 @@ namespace ReactMVC.Controllers
         {
             try
             {
-                Response response = new Response();
-                response.Status = true;
-                response.Message = "Sending message";
-                response.Data = "message";
-
                 var Rglobal = request.Rglobal;
                 var FilesNumber = request.FilesNumber;
 
@@ -48,14 +43,31 @@ namespace ReactMVC.Controllers
                 var ListOfPoints = _logic.GenerateRandomPoints(sphere, 3);
                 // параметр NumOfFiles должен быть меньше чем кол-во элементов в списке, иначе System.ArgumentOutOfRangeException
                 _logic.ThreadablePrintEllipsoidFields(ListOfPoints, ListOfPoints.Count - 1);
-                
+
+                Response response = new()
+                {
+                    Status = true,
+                    Message = "Sending message",
+                    Data = "message"
+                };
+
                 return Ok(response);
             }
             catch (Exception ex){
-                _logger.LogError(ex, "An error occurred in CreateRequest method");
-                ex.ToString();
+                _logger.LogError(ex.ToString());
                 throw;
             }
+        }
+
+        [HttpGet("download")]
+        public ActionResult DownloadDocument()
+        {
+            string filePath = "/Files";
+            string fileName = "data.txt";
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+            return File(fileBytes, "Files/force-download", fileName);
         }
 
         //private double RandomizeCoordinate()
