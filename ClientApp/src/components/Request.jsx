@@ -185,6 +185,6 @@ export class RequestList extends React.Component {
 }
 
 ReactDOM.render(
-    <RequestList apiUrl="/api/request" />,
+    <RequestList apiUrl="/api/Request" />,
     document.getElementById("root")
 );

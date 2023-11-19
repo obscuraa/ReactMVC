@@ -46,7 +46,7 @@ namespace ReactMVC.Controllers
 
                 Response response = new()
                 {
-                    Status = true,
+                    Status = "Success",
                     Message = "Sending message",
                     Data = "message"
                 };

@@ -2,6 +2,8 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { CreateEllipsoid } from "./components/CreateEllipsoid";
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
 //import { Request } from "./components/Request";
 
 const AppRoutes = [
@@ -23,6 +25,14 @@ const AppRoutes = [
     },
     {
         path: '/ellipsoid',
+    },
+    {
+        path: '/register',
+        element: <Register />
+    },
+    {
+        path: '/login',
+        element: <Login />
     }
     //,
     //{

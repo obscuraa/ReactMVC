@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using ReactMVC.Models;
+using ReactMVC.Repository.Contracts;
 using ReactMVC.Services;
 using ReactMVC.Services.Contracts;
 
@@ -15,7 +18,8 @@ namespace ReactMVC.Controllers
         //private readonly SignInManager<APIUser> _signInManager;
         private readonly IAuthManager _authManager;
         private readonly ILogger<AccountController> _logger;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AccountController(UserManager<APIUser> userManager, /*SignInManager<APIUser> signInManager,*/ IAuthManager authManager, ILogger<AccountController> logger, IMapper Mapper)
         {
@@ -63,6 +67,7 @@ namespace ReactMVC.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto userDto)
         {
             _logger.LogInformation($"Login attempt by {userDto.UserEmail}");
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -74,7 +79,7 @@ namespace ReactMVC.Controllers
                     return Unauthorized();
                 }
 
-                return Ok(new { Token = await _authManager.CreateToken()});
+                return Ok(new { Token = await _authManager.CreateToken() });
             }
             catch (Exception ex)
             {
@@ -82,6 +87,56 @@ namespace ReactMVC.Controllers
                 //throw;
                 return Problem($"Error: {nameof(Login)}", statusCode: 500);
             }
+        }
+
+        [HttpGet("{id:int}", Name = "GetUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var user = await _unitOfWork.Users.GetAsync(q => q.IdInteger == id);
+                var result = _mapper.Map<APIUser>(user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, $"Error: {nameof(Login)}");
+                //throw;
+                return Problem($"Error: {nameof(Login)}", statusCode: 500);
+            }
+        }
+
+        [Authorize]
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto userDTO)
+        {
+            if (!ModelState.IsValid || id < 1)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateUser)}");
+                return BadRequest(ModelState);
+            }
+
+            var user = await _unitOfWork.Users.GetAsync(q => q.IdInteger == id);
+            if (user == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateUser)}");
+                return BadRequest("Submitted data is invalid");
+            }
+
+            _mapper.Map(userDTO, user);
+            _unitOfWork.Users.Update(user);
+            await _unitOfWork.Save();
+
+            return NoContent();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace ReactMVC.Repository.Contracts
 {
@@ -9,7 +10,6 @@ namespace ReactMVC.Repository.Contracts
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             List<string> includes = null
             );
-
         Task<T> GetAsync(Expression<Func<T, bool>> expression, List<string> includes = null);
         Task Insert(T entity);
         Task InsertRange(IEnumerable<T> entities);

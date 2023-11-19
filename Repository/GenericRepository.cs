@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using ReactMVC.Data;
 using ReactMVC.Repository.Contracts;
 using System.Linq.Expressions;

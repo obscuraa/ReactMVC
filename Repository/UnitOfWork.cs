@@ -8,6 +8,7 @@ namespace ReactMVC.Repository
     {
         private readonly ApplicationContext _applicationContext;
         private IGenericRepository<APIUser> _APIUsers;
+
         public UnitOfWork(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;

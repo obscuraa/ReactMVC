@@ -11,7 +11,9 @@ namespace ReactMVC.Configurations
     {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentityCore<APIUser>(q => q.User.RequireUniqueEmail = true);
+            var builder = services.AddIdentityCore<APIUser>(q => { 
+                q.User.RequireUniqueEmail = true;
+            });
 
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
             builder.AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();

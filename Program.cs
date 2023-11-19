@@ -110,6 +110,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = "ClientApp";
+//    spa.UseProxyToSpaDevelopmentServer("http://localhost:7077");
+//});
+
 app.Run(async (context) =>
 {
     logger.LogInformation($"Requested Path: {context.Request.Path}");

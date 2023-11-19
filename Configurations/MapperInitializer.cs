@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ReactMVC.Models;
-using ReactMVC.Models;
 
 namespace ReactMVC.Configurations
 {
